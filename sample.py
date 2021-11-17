@@ -1,5 +1,4 @@
 import numpy as np
-from matplotlib import pyplot as plt
 from scipy.stats import norm
 
 class Sample:
@@ -26,9 +25,6 @@ class Sample:
         # saves a set of generated sample data to a csv file and saves a plot of it
 
         np.savetxt("simulated_data.csv", data[1], delimiter=',')
-
-        plt.plot(data[0], data[1], 'r.')
-        plt.savefig("plot.png")
 
 
 
