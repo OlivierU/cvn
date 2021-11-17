@@ -2,7 +2,13 @@ from sample import Sample
 import maximum_likelihood as ml
 from matplotlib import pyplot as plt
 
-sample = Sample(100, [0.44, 0.13, 41], 189)
+# define parameters to generate a sample
+size = 100
+parameters = [0.44, 0.13, 41]
+error = 189
+
+# generate sample data based on given params
+sample = Sample(size, parameters, error)
 
 data = sample.get_sample()
 sample.save_sample(data)
