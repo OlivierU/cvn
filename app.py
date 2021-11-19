@@ -1,7 +1,7 @@
 import numpy as np
 
 from sample import Sample
-import maximum_likelihood as ml
+from model import Model
 from matplotlib import pyplot as plt
 
 # define parameters to generate a sample
@@ -15,9 +15,7 @@ sample = Sample(size, parameters, error)
 data = sample.get_sample()
 sample.save_sample(data)
 
-# function to define model by params
-def sqr(x, a,  b, m):
-    return a*x*x + b*x + m
+model = Model(size, parameters)
 
 # define a computational range for each parameter
 a_range = [0.3, 0.5]
@@ -32,12 +30,12 @@ A, B, M = np.meshgrid(np.linspace(a_range[0], a_range[1], steps), np.linspace(b_
 ABM = np.c_[A.ravel(), B.ravel(), M.ravel()]
 
 # calculate likelihoods
-L = np.array([ml.likelihood(data[0], data[1], lambda x: sqr(x, abm[0], abm[1], abm[2]), 65) for abm in ABM]).reshape(M.shape)
+L = np.array([model.likelihood(data[0], data[1], lambda x: model.func(x, abm[0], abm[1], abm[2]), 65) for abm in ABM]).reshape(M.shape)
 
 # select parameter with maximum likelihood
 abm_max = np.array([A[np.unravel_index(L.argmax(),L.shape)],B[np.unravel_index(L.argmax(),L.shape)],M[np.unravel_index(L.argmax(),L.shape)]])
 
 # plot the sample data as well as the maximum likelihood model
 plt.plot(data[0], data[1], 'r.')
-plt.plot(data[0], sqr(data[0], abm_max[0], abm_max[1], abm_max[2]), 'b--')
+plt.plot(data[0], model.func(data[0], abm_max[0], abm_max[1], abm_max[2]), 'b--')
 plt.show()
