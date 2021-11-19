@@ -20,14 +20,16 @@ sample.save_sample(data)
 model = Model()
 
 # define a computational range for each parameter
-a_range = [0.3, 0.5]
-b_range = [0.1, 0.3]
-m_range = [1, 100]
+limits = {
+    "a": [0.3, 0.5],
+    "b": [0.1, 0.3],
+    "m": [1, 100]
+}
 
 # define the number of steps to use for optimisation
 steps = 20
 
-abm_max = model.optimise(data, steps, [a_range, b_range, m_range])
+abm_max = model.optimise(data, steps, limits)
 
 # plot the sample data as well as the maximum likelihood model
 plt.plot(data["x"], data["y"], 'r.')

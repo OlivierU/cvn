@@ -22,15 +22,17 @@ class Model:
             l = l * p
         return l
 
+    def series(self, steps, lower_bound, upper_bound):
+        return np.linspace(lower_bound, upper_bound, steps)
+
     def optimise(self, data, steps, param_ranges):
 
-        a_range = param_ranges[0]
-        b_range = param_ranges[1]
-        m_range = param_ranges[2]
+        a_series = self.series(steps, min(param_ranges["a"]), max(param_ranges["a"]))
+        b_series = self.series(steps, min(param_ranges["b"]), max(param_ranges["b"]))
+        m_series = self.series(steps, min(param_ranges["m"]), max(param_ranges["m"]))
 
         # combine the series of each parameter into a meshgrid and then flatten it out to get an array of all possible param combinations
-        A, B, M = np.meshgrid(np.linspace(a_range[0], a_range[1], steps), np.linspace(b_range[0], b_range[1], steps),
-                              np.linspace(m_range[0], m_range[1], steps))
+        A, B, M = np.meshgrid(a_series, b_series, m_series)
         ABM = np.c_[A.ravel(), B.ravel(), M.ravel()]
 
         # calculate likelihoods
