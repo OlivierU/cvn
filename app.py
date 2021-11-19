@@ -15,7 +15,7 @@ sample = Sample(size, parameters, error)
 data = sample.get_sample()
 sample.save_sample(data)
 
-model = Model(size, parameters)
+model = Model()
 
 # define a computational range for each parameter
 a_range = [0.3, 0.5]

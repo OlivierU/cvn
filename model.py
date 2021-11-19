@@ -3,11 +3,8 @@ import numpy as np
 
 class Model:
     # function to define model by params
-    def __init__(self, x, abm):
-        self.x = x
-        self.a = abm[0]
-        self.b = abm[1]
-        self.m = abm[2]
+    def __init__(self):
+        pass
 
     @staticmethod
     def func(x, a, b, m):
