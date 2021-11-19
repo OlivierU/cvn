@@ -25,15 +25,7 @@ m_range = [1, 100]
 # define the number of steps to use for optimisation
 steps = 20
 
-# combine the series of each parameter into a meshgrid and then flatten it out to get an array of all possible param combinations
-A, B, M = np.meshgrid(np.linspace(a_range[0], a_range[1], steps), np.linspace(b_range[0], b_range[1], steps), np.linspace(m_range[0], m_range[1], steps))
-ABM = np.c_[A.ravel(), B.ravel(), M.ravel()]
-
-# calculate likelihoods
-L = np.array([model.likelihood(data[0], data[1], lambda x: model.func(x, abm[0], abm[1], abm[2]), 65) for abm in ABM]).reshape(M.shape)
-
-# select parameter with maximum likelihood
-abm_max = np.array([A[np.unravel_index(L.argmax(),L.shape)],B[np.unravel_index(L.argmax(),L.shape)],M[np.unravel_index(L.argmax(),L.shape)]])
+abm_max = model.optimise(data, steps, [a_range, b_range, m_range])
 
 # plot the sample data as well as the maximum likelihood model
 plt.plot(data[0], data[1], 'r.')
