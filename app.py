@@ -1,5 +1,3 @@
-import numpy as np
-
 from sample import Sample
 from model import Model
 from matplotlib import pyplot as plt
