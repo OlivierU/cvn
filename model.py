@@ -31,13 +31,16 @@ class Model:
         b_series = self.series(steps, min(param_ranges["b"]), max(param_ranges["b"]))
         m_series = self.series(steps, min(param_ranges["m"]), max(param_ranges["m"]))
 
+        #calculate the SD of the given data to use in likelihood calculation
+        sd = np.std(data["y"])
+
         # combine the series of each parameter into a meshgrid and then flatten it out to get an array of all possible param combinations
         A, B, M = np.meshgrid(a_series, b_series, m_series)
         ABM = np.c_[A.ravel(), B.ravel(), M.ravel()]
 
         # calculate likelihoods
         L = np.array(
-            [self.likelihood(data["x"], data["y"], lambda x: self.func(x, abm[0], abm[1], abm[2]), 65) for abm in
+            [self.likelihood(data["x"], data["y"], lambda x: self.func(x, abm[0], abm[1], abm[2]), sd) for abm in
              ABM]).reshape(M.shape)
 
         # select parameter with maximum likelihood
