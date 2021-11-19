@@ -22,11 +22,11 @@ class Model:
             l = l * p
         return l
 
-    def series(self, steps, lower_bound, upper_bound):
+    @staticmethod
+    def series(steps, lower_bound, upper_bound):
         return np.linspace(lower_bound, upper_bound, steps)
 
     def optimise(self, data, steps, param_ranges):
-
         a_series = self.series(steps, min(param_ranges["a"]), max(param_ranges["a"]))
         b_series = self.series(steps, min(param_ranges["b"]), max(param_ranges["b"]))
         m_series = self.series(steps, min(param_ranges["m"]), max(param_ranges["m"]))
@@ -37,8 +37,8 @@ class Model:
 
         # calculate likelihoods
         L = np.array(
-            [self.likelihood(data["x"], data["y"], lambda x: self.func(x, abm[0], abm[1], abm[2]), 65) for abm in ABM]).reshape(
-            M.shape)
+            [self.likelihood(data["x"], data["y"], lambda x: self.func(x, abm[0], abm[1], abm[2]), 65) for abm in
+             ABM]).reshape(M.shape)
 
         # select parameter with maximum likelihood
         abm_max = np.array([A[np.unravel_index(L.argmax(), L.shape)], B[np.unravel_index(L.argmax(), L.shape)],
