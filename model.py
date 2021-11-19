@@ -35,7 +35,7 @@ class Model:
 
         # calculate likelihoods
         L = np.array(
-            [self.likelihood(data[0], data[1], lambda x: self.func(x, abm[0], abm[1], abm[2]), 65) for abm in ABM]).reshape(
+            [self.likelihood(data["x"], data["y"], lambda x: self.func(x, abm[0], abm[1], abm[2]), 65) for abm in ABM]).reshape(
             M.shape)
 
         # select parameter with maximum likelihood

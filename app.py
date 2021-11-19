@@ -4,7 +4,11 @@ from matplotlib import pyplot as plt
 
 # define parameters to generate a sample
 size = 100
-parameters = [0.44, 0.13, 41]
+parameters = {
+    "a": 0.44,
+    "b": 0.13,
+    "m": 41
+}
 error = 65
 
 # generate sample data based on given params
@@ -26,6 +30,6 @@ steps = 20
 abm_max = model.optimise(data, steps, [a_range, b_range, m_range])
 
 # plot the sample data as well as the maximum likelihood model
-plt.plot(data[0], data[1], 'r.')
-plt.plot(data[0], model.func(data[0], abm_max[0], abm_max[1], abm_max[2]), 'b--')
+plt.plot(data["x"], data["y"], 'r.')
+plt.plot(data["x"], model.func(data["x"], abm_max[0], abm_max[1], abm_max[2]), 'b--')
 plt.show()
