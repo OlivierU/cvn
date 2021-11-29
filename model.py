@@ -38,14 +38,11 @@ class Model:
 
         candidate_params = np.stack(np.meshgrid(*value_series)).T.reshape(-1,len(param_ranges))
 
-        # calculate the SD of the given data to use in likelihood calculation
-        sd = np.std(data["y"])
-
         # calculate likelihoods
         likelihoods = np.empty(candidate_params.shape[0])
 
         for cand in range(candidate_params.shape[0]):
-            likelihoods[cand] = self.likelihood(data["x"], data["y"], lambda x: self.func(candidate_params[cand], x), sd)
+            likelihoods[cand] = self.likelihood(data["x"], data["y"], lambda x: self.func(candidate_params[cand], x), 10)
 
 
         # select parameter with maximum likelihood
