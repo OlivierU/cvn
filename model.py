@@ -1,4 +1,5 @@
 import numpy as np
+from numpy.polynomial.polynomial import Polynomial
 
 
 class Model:
@@ -8,7 +9,9 @@ class Model:
 
     @staticmethod
     def func(params, x):
-        return np.array([np.sum(np.array([params[i] * (j ** i) for i in range(len(params))])) for j in x])
+        poly = Polynomial(params)
+
+        return poly(x)
 
     # calculate data likelihood for range of parameters for the given data under the assumption of a normal distribution
     def normal(self, x, median, sd):
