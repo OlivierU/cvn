@@ -47,6 +47,7 @@ limits = [ # computational range for each parameter
 
 steps = 20 # number of optimisation cycles
 
+k = 10 # number of splits for k-fold validation
 
 #######################
 # Object Construction #
@@ -67,11 +68,10 @@ model = Model()
 ################
 
 rng = np.random.default_rng()
-splits = np.hsplit(rng.permutation(data, 1), 10)
 
-#folds = rng.choice(splits, (2, 10), replace=False)
+splits = np.hsplit(rng.permutation(data, 1), k)
 
-for f in range(splits[0].size):
+for f in range(len(splits)):
     test = splits[f]
     train = np.sort(np.column_stack(np.delete(splits, f, 0)))
     max_likelihood_f = model.optimise(train, steps, limits)
