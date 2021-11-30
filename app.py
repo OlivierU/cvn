@@ -37,10 +37,10 @@ error = 15 # SD of the error added to each value
 # Optimisation #
 
 limits = [ # computational range for each parameter
-    [1, 100],
-    [0.1, 0.3],
-    [0.2, 0.3],
-    [0.3, 0.5],
+    [1, 10],
+    [-0.1, 0.3],
+    [-0.2, 0.3],
+    [-0.3, 0.5],
 ]
 
 steps = 20 # number of optimisation cycles

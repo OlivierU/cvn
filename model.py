@@ -20,10 +20,8 @@ class Model:
     def likelihood(self, x, y, model, sd):
         median = model(x)
         ps = self.normal(y, median, sd)
-        l = 1
-        for p in ps:
-            l = l * p
-        return l
+        return np.logaddexp.reduce(ps)
+
 
     @staticmethod
     def series(steps, lower_bound, upper_bound):
