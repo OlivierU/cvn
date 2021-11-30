@@ -1,5 +1,7 @@
 import numpy as np
+from numpy.polynomial.polynomial import Polynomial
 from scipy.stats import norm
+
 
 class Sample:
     # handles sample data generation, accepts variables to define the size, distribution parameters and error characteristics
@@ -15,7 +17,9 @@ class Sample:
 
         x = np.arange(-self.sampleSize, self.sampleSize)
 
-        dist = np.array([np.sum(np.array([self.params[i] * (j ** i) for i in range(len(self.params))])) for j in x])
+        poly = Polynomial(self.params)
+
+        dist = poly(x)
 
         error = norm.rvs(0, scale=self.errorSD, size=self.sampleSize*2)
 
