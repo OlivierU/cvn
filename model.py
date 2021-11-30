@@ -42,7 +42,7 @@ class Model:
         candidate_params = np.stack(np.meshgrid(*value_series)).T.reshape(-1,len(param_ranges))
 
         # calculate the SD of the given data to use in likelihood calculation
-        sd = np.std(data["y"])
+        sd = 15
 
         # calculate likelihoods
         likelihoods = np.empty(candidate_params.shape[0])
