@@ -25,12 +25,12 @@ class Sample:
 
         y = np.asanyarray(dist+error)
 
-        return {"x": x, "y": y}
+        return np.asarray([x, y])
 
     def save_sample(self, data):
         # saves a set of generated sample data to a csv file and saves a plot of it
 
-        np.savetxt("simulated_data.csv", data["y"], delimiter=',')
+        np.savetxt("simulated_data.csv", data, delimiter=',')
 
 
 

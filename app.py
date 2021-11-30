@@ -1,3 +1,5 @@
+import numpy as np
+
 from sample import Sample
 from model import Model
 from matplotlib import pyplot as plt
@@ -64,8 +66,20 @@ model = Model()
 # Optimisation #
 ################
 
+rng = np.random.default_rng()
+splits = np.hsplit(rng.permutation(data, 1), 10)
+
+#folds = rng.choice(splits, (2, 10), replace=False)
+
+for f in range(splits[0].size):
+    test = splits[f]
+    train = np.sort(np.column_stack(np.delete(splits, f, 0)))
+    max_likelihood_f = model.optimise(train, steps, limits)
+
+    plt.plot(train[0], model.func(max_likelihood_f, train[0]), 'b--')
+
 # find maximum likelihood function based on the defined variables
-abm_max = model.optimise(data, steps, limits)
+# abm_max = model.optimise(data, steps, limits)
 
 
 ############
@@ -73,6 +87,5 @@ abm_max = model.optimise(data, steps, limits)
 ############
 
 # plot the sample data as well as the maximum likelihood model
-plt.plot(data["x"], data["y"], 'r.')
-plt.plot(data["x"], model.func(abm_max, data["x"]), 'b--')
+plt.plot(data[0], data[1], 'r.')
 plt.show()

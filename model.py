@@ -46,7 +46,7 @@ class Model:
         likelihoods = np.empty(candidate_params.shape[0])
 
         for cand in range(candidate_params.shape[0]):
-            likelihoods[cand] = self.likelihood(data["x"], data["y"], lambda x: self.func(candidate_params[cand], x), sd)
+            likelihoods[cand] = self.likelihood(data[0], data[1], lambda x: self.func(candidate_params[cand], x), sd)
 
 
         # select parameter with maximum likelihood
