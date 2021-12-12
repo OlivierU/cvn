@@ -25,27 +25,23 @@ from matplotlib import pyplot as plt
 
 # Sample #
 
-size = 10 # number of values to generate
+size = 20 # number of values to generate
 
 parameters = [ # distribution parameters used
     3,
     0.13,
-    0.25,
-    0.44,
 ]
 
-error = 15 # SD of the error added to each value
+error = 0.64 # SD of the error added to each value
 
 # Optimisation #
 
 limits = [ # computational range for each parameter
-    [1, 10],
-    [-0.1, 0.3],
-    [-0.2, 0.3],
-    [-0.3, 0.5],
+    [1, 5],
+    [-0.1, 0.15],
 ]
 
-steps = 20 # number of optimisation cycles
+steps = 120 # number of optimisation cycles
 
 k = 10 # number of splits for k-fold validation
 
@@ -69,18 +65,29 @@ model = Model()
 
 rng = np.random.default_rng()
 
+# split the data into k folds to use as training and testing sets
 splits = np.hsplit(rng.permutation(data, 1), k)
 
+# initialise an array of length k to store the estimated parameter of each train & test iteration
+max_likelihoods = np.empty((k, len(parameters)))
+
+# use each fold once as a testing set while the other k-1 folds are used as training sets
 for f in range(len(splits)):
     test = splits[f]
     train = np.sort(np.column_stack(np.delete(splits, f, 0)))
+
+    # calculate ml parameters for each fold
     max_likelihood_f = model.optimise(train, steps, limits)
 
-    plt.plot(train[0], model.func(max_likelihood_f, train[0]), 'b--')
+    max_likelihoods[f] = max_likelihood_f
 
-# find maximum likelihood function based on the defined variables
-# abm_max = model.optimise(data, steps, limits)
+    plt.plot(train[0], model.func(max_likelihood_f, train[0]), 'b--', alpha=0.2)
 
+# calculate the mean of each parameter from all k parameter sets to use as final ml estimate
+best_ml = np.mean(max_likelihoods, axis=0)
+
+# plot the final ml estimate in green
+plt.plot(data[0], model.func(best_ml, data[0]), 'g-')
 
 ############
 # Plotting #
