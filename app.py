@@ -25,7 +25,7 @@ from matplotlib import pyplot as plt
 
 # Sample #
 
-size = 20 # number of values to generate
+size = 50 # number of values to generate
 
 parameters = [ # distribution parameters used
     3,
@@ -44,6 +44,8 @@ limits = [ # computational range for each parameter
 steps = 120 # number of optimisation cycles
 
 k = 10 # number of splits for k-fold validation
+
+bootstrap_cycles = 10 # number of time the bootstrapping is applied
 
 #######################
 # Object Construction #
@@ -93,6 +95,28 @@ plt.plot(data[0], model.func(best_ml, data[0]), 'g-')
 # Plotting #
 ############
 
-# plot the sample data as well as the maximum likelihood model
+bootstrapped_samples = np.empty((bootstrap_cycles, size * 2))
+
+bootstrap_params = np.empty((bootstrap_cycles, len(parameters)))
+
+def get_sample_from_model():
+    poly = np.polynomial.polynomial.Polynomial(best_ml)
+
+    return np.sort(poly(rng.integers(low=-size, high=size, size=size*2)))
+
+
+for i in range(bootstrap_cycles):
+    bootstrapped_samples[i] = get_sample_from_model()
+
+    indexed_sample = np.stack((np.arange(-size, size), bootstrapped_samples[i]), axis=0)
+
+    bootstrap_params[i] = model.optimise(indexed_sample, steps, limits)
+
+    plt.plot(data[0], model.func(bootstrap_params[i], data[0]), 'y--')
+
+
+bootstrap_var = bootstrap_params.T.std(axis=1)
+
 plt.plot(data[0], data[1], 'r.')
+
 plt.show()
