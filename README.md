@@ -1,12 +1,12 @@
 # cvn
-Modeling excersice for the Computational Visual Neuroscience seminar HS21:
+Modeling exercise for the Computational Visual Neuroscience seminar HS21:
 
 `Generate yourself some data from a simple 
 (polynomial) model with noise. Then write a program in R, Python or 
 MATLAB to do the three essential modeling steps: optimisation, goodness-of-
 fit and estimating variability (using the correct, generative model).`
 
-This application thus consists of a jupyter notebook and a few python objects which together implement a framework to generate a sample dataset and a model to be fitted to it using a polynomial function of arbitrary order.
+This application thus consists of a jupyter notebook, and a few python objects which together implement a framework to generate a sample dataset, and a model to be fitted to it using a polynomial function of arbitrary order.
 
 ### how to run
 To run the notebook, `jupyter notebook` needs to be installed, for example with `pip`:
